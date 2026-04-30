@@ -12,7 +12,8 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 40px 20px;
   color: #333;
 }
 
@@ -86,4 +87,50 @@ h1 {
 
 .btn-submit:hover {
   background: linear-gradient(to right, #3182ce, #2b6cb0);
+}
+
+.contacts-section {
+  margin-top: 40px;
+}
+
+.contacts-section h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: #1a202c;
+  font-weight: 700;
+}
+
+.contact-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+}
+
+.contact-card h3 {
+  font-size: 20px;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.contact-card p {
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.contact-card strong {
+  color: #2d3748;
 }
