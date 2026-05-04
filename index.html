@@ -1,58 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/app.js" defer type="module"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
     <title>Contatos</title>
-</head>
-<body>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="index.html">Cadastrar Contato</a>
+          </li>
+          <li>
+            <a href="contatos.html">Listagem de Contatos</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <main class="container">
-        <h1>Cadastro de Contato</h1>
-        <form id="contact-form" class="form-container" aria-label="Formulário de Contato">
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required aria-required="true">
-            </div>
-            <div class="form-group">
-                <label for="celular">Celular</label>
-                <input type="tel" id="celular" name="celular" placeholder="(XX) XXXXX-XXXX" required aria-required="true">
-            </div>
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required aria-required="true">
-            </div>
-            <div class="form-group">
-                <label for="endereco">Endereço</label>
-                <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro" required aria-required="true">
-            </div>
-            <div class="form-group">
-                <label for="cidade">Cidade</label>
-                <input type="text" id="cidade" name="cidade" placeholder="Digite sua cidade" required aria-required="true">
-            </div>
-            <button type="submit" class="btn-submit">Salvar Contato</button>
-        </form>
-
-        <section class="contacts-section">
-            <h2>Contatos Cadastrados</h2>
-            <div class="load-contacts"><button class="btn-get">Carregar Contatos</button></div>
-            <div id="contacts-list">
-                <!-- exemplo de exibição de um contato cadastrado-->
-                <div class="contact-card-style">
-                    <h3>Maria Silva</h3>
-                    <p><strong>Id:</strong> 1</p>
-                    <p><strong>Celular:</strong> (11) 99999-9999</p>
-                    <p><strong>E-mail:</strong> maria@email.com</p>
-                    <p><strong>Endereço:</strong> Rua A, 100</p>
-                    <p><strong>Cidade:</strong> São Paulo</p>
-                    <div class="card-actions">
-                        <button class="btn-action btn-put">Editar Contato</button>
-                        <button class="btn-action btn-delete">Excluir Contato</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <h1>Cadastro de Contato</h1>
+      <form
+        class="form-container"
+        aria-label="Formulário de Contato"
+        method="POST"
+      >
+        <div class="form-group">
+          <label for="nome">Nome Completo</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Digite seu nome completo"
+            required
+            aria-required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="celular">Celular</label>
+          <input
+            type="tel"
+            id="celular"
+            name="celular"
+            placeholder="(XX) XXXXX-XXXX"
+            required
+            aria-required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+            required
+            aria-required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="endereco">Endereço</label>
+          <input
+            type="text"
+            id="endereco"
+            name="endereco"
+            placeholder="Rua, número, bairro"
+            required
+            aria-required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cidade">Cidade</label>
+          <input
+            type="text"
+            id="cidade"
+            name="cidade"
+            placeholder="Digite sua cidade"
+            required
+            aria-required="true"
+          />
+        </div>
+        <button type="submit" class="btn-submit">Salvar Contato</button>
+      </form>
     </main>
-</body>
+  </body>
 </html>
