@@ -88,3 +88,33 @@ export function registrarContato() {
     });
   }
 }
+
+export async function exibirContatos() {
+  const contatos = await getContatos();
+  console.log(contatos);
+
+  let template = document.getElementById("contacts-list");
+
+  template.replaceChildren();
+
+  contatos.forEach((item) => {
+    const cardContato = `<div class="contact-card-style">
+            <h3>${item.nome}</h3>
+            <img
+              src="https://img.freepik.com/psd-gratuitas/ilustracao-3d-de-avatar-ou-perfil-humano_23-2150671122.jpg"
+              alt="imagem do contato"
+            />
+            <p><strong>Id:</strong> ${item.id}</p>
+            <p><strong>Celular:</strong> ${item.celular}</p>
+            <p><strong>E-mail:</strong> ${item.email}</p>
+            <p><strong>Endereço:</strong> ${item.endereco}</p>
+            <p><strong>Cidade:</strong> ${item.cidade}</p>
+            <div class="card-actions">
+              <button class="btn-action btn-put">Editar Contato</button>
+              <button class="btn-action btn-delete">Excluir Contato</button>
+            </div>
+          </div>`;
+
+    template.innerHTML += cardContato;
+  });
+}

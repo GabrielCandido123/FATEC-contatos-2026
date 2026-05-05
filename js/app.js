@@ -1,3 +1,5 @@
-import { registrarContato } from "./contatos.js";
+import { registrarContato, exibirContatos } from "./contatos.js";
 
 registrarContato();
+
+exibirContatos();

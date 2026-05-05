@@ -59,7 +59,6 @@ nav li a:hover {
 /* --- Container & Layout --- */
 .container {
   width: 100%;
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,17 +146,11 @@ h2 {
   width: 100%;
 }
 
-.load-contacts {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
 #contacts-list {
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
+  gap: 15px;
 }
 
 .contact-card-style {
@@ -168,7 +161,7 @@ h2 {
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  max-width: 350px;
+  max-width: 330px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
 }
@@ -216,24 +209,6 @@ h2 {
 .btn-action:hover {
   opacity: 0.9;
   transform: translateY(-1px);
-}
-
-.btn-get {
-  background: linear-gradient(to right, #48bb78, #38a169);
-  padding: 12px 30px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  color: white;
-  transition: all 0.2s ease;
-}
-
-.btn-get:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(56, 161, 105, 0.3);
 }
 
 .btn-put {
