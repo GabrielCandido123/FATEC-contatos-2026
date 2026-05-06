@@ -2,6 +2,7 @@ import {
   registrarContato,
   exibirContatos,
   excluirContato,
+  editarContato,
 } from "./contatos.js";
 
 registrarContato();
@@ -9,3 +10,5 @@ registrarContato();
 exibirContatos();
 
 excluirContato();
+
+editarContato();

@@ -91,7 +91,7 @@ export function registrarContato() {
 
 export async function exibirContatos() {
   const contatos = await getContatos();
-  console.log(contatos);
+  window.onload;
 
   let template = document.getElementById("contacts-list");
 
@@ -137,6 +137,80 @@ export async function excluirContato() {
       } else {
         throw new Error("falha ao deletar usuario");
       }
+    }
+  });
+}
+
+export async function editarContato() {
+  const template = document.getElementById("contacts-list");
+
+  template.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("btn-put")) {
+      const card = event.target.closest(".contact-card-style");
+      const id = card.dataset.id;
+
+      const response = await fetch(`${BASE_URL}/${id}`);
+      const contato = await response.json();
+
+      const formEditar = `
+        <form class="form-container">
+          <h2>Editar Contato</h2>
+          <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" value="${contato.nome}" required />
+          </div>
+          <div class="form-group">
+            <label for="celular">Celular</label>
+            <input type="tel" id="celular" name="celular" value="${contato.celular}" required />
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" value="${contato.email}" required />
+          </div>
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" value="${contato.endereco}" required />
+          </div>
+          <div class="form-group">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" name="cidade" value="${contato.cidade}" required />
+          </div>
+          <div class="card-actions">
+            <button type="submit" class="btn-submit">Salvar Alterações</button>
+            <button type="button" class="btn-action" onclick="location.reload()">Cancelar</button>
+          </div>
+        </form>
+      `;
+
+      card.innerHTML = formEditar;
+
+      const formSalvar = card.querySelector("form");
+      formSalvar.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(formSalvar);
+        const rawData = Object.fromEntries(formData);
+
+        const contatoAtualizado = {
+          nome: rawData.nome,
+          celular: rawData.celular,
+          foto:
+            contato.foto ||
+            "https://img.freepik.com/psd-gratuitas/renderizacao-3d-do-estilo-de-cabelo-para-o-design-do-avatar_23-2151869121.jpg",
+          email: rawData.email,
+          endereco: rawData.endereco,
+          cidade: rawData.cidade,
+        };
+
+        try {
+          await atualizarContato(id, contatoAtualizado);
+          alert("Contato atualizado com sucesso!");
+          location.reload();
+        } catch (error) {
+          console.error("Erro ao atualizar contato:", error);
+          alert("Não foi possível atualizar o contato.");
+        }
+      });
     }
   });
 }
