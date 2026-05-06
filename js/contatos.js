@@ -98,7 +98,7 @@ export async function exibirContatos() {
   template.replaceChildren();
 
   contatos.forEach((item) => {
-    const cardContato = `<div class="contact-card-style">
+    const cardContato = `<div class="contact-card-style" data-id="${item.id}">
             <h3>${item.nome}</h3>
             <img
               src="https://img.freepik.com/psd-gratuitas/ilustracao-3d-de-avatar-ou-perfil-humano_23-2150671122.jpg"
@@ -116,5 +116,27 @@ export async function exibirContatos() {
           </div>`;
 
     template.innerHTML += cardContato;
+  });
+}
+
+export async function excluirContato() {
+  const template = document.getElementById("contacts-list");
+
+  template.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("btn-delete")) {
+      const card = event.target.closest(".contact-card-style");
+      const id = card.dataset.id;
+
+      if (confirm("tem certeza que deseja deletar este contato ?")) {
+        try {
+          await deletarContato(id);
+          location.reload();
+        } catch {
+          alert("O contato foi deletado com sucesso!");
+        }
+      } else {
+        throw new Error("falha ao deletar usuario");
+      }
+    }
   });
 }
