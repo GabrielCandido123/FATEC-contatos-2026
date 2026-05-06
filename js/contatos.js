@@ -89,6 +89,7 @@ export function registrarContato() {
   }
 }
 
+//criando função de geração de cards de contatos
 export async function exibirContatos() {
   const contatos = await getContatos();
   window.onload;
@@ -119,6 +120,7 @@ export async function exibirContatos() {
   });
 }
 
+// consumindo função deletar contato utilizando data-id(dataset) e closest
 export async function excluirContato() {
   const template = document.getElementById("contacts-list");
 
@@ -141,6 +143,7 @@ export async function excluirContato() {
   });
 }
 
+// criando form dinamico para atualizar um contato existente utilizando data-id(dataset) e closest
 export async function editarContato() {
   const template = document.getElementById("contacts-list");
 
@@ -152,6 +155,7 @@ export async function editarContato() {
       const response = await fetch(`${BASE_URL}/${id}`);
       const contato = await response.json();
 
+      //criando form editar
       const formEditar = `
         <form class="form-container">
           <h2>Editar Contato</h2>
@@ -182,16 +186,17 @@ export async function editarContato() {
         </form>
       `;
 
-      card.innerHTML = formEditar;
+      card.innerHTML = formEditar; // transforma o card atual no formulario de edição
 
       const formSalvar = card.querySelector("form");
       formSalvar.addEventListener("submit", async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // evita que a pagina recarregue
 
-        const formData = new FormData(formSalvar);
-        const rawData = Object.fromEntries(formData);
+        const formData = new FormData(formSalvar); // criando array com os dados do form
+        const rawData = Object.fromEntries(formData); //transformando dados do form em objeto
 
         const contatoAtualizado = {
+          // passando o contato atualizado
           nome: rawData.nome,
           celular: rawData.celular,
           foto:
@@ -203,9 +208,9 @@ export async function editarContato() {
         };
 
         try {
-          await atualizarContato(id, contatoAtualizado);
+          await atualizarContato(id, contatoAtualizado); // atualizando contato
           alert("Contato atualizado com sucesso!");
-          location.reload();
+          location.reload(); // atualiza a pagina após atualizar o contato
         } catch (error) {
           console.error("Erro ao atualizar contato:", error);
           alert("Não foi possível atualizar o contato.");
