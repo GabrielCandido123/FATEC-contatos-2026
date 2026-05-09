@@ -80,14 +80,72 @@ h2 {
   font-size: 24px;
 }
 
-/* --- Form --- */
-.form-container {
+/* --- Form & Registration Layout --- */
+.registration-content {
+  display: flex;
+  gap: 40px;
   background: white;
   padding: 40px;
   border-radius: 20px;
   width: 100%;
-  max-width: 500px;
+  max-width: 900px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  align-items: flex-start;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.image-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: -10px; /* Reduz espaço para o preview */
+}
+
+.image-preview {
+  width: 250px;
+  height: 250px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: 4px solid #f8fafc;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-upload {
+  padding: 12px 24px;
+  background: #f8fafc;
+  color: #4a5568;
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn-upload:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  color: #2d3748;
+}
+
+.form-container {
+  flex: 1.5;
+  width: 100%;
 }
 
 .form-group {
@@ -217,4 +275,22 @@ h2 {
 
 .btn-delete {
   background: linear-gradient(to right, #fc8181, #f56565);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .registration-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+  }
+
+  .image-preview {
+    width: 200px;
+    height: 200px;
+  }
+
+  .form-container {
+    padding: 0;
+  }
 }

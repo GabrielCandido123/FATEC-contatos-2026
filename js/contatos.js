@@ -58,6 +58,24 @@ export async function deletarContato(id) {
   return true;
 }
 
+export function preview() {
+  const input = document.getElementById("preview-input");
+  const image = document.getElementById("preview-image");
+
+  if (input && image) {
+    input.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader(); //trasnformando imagem em texto
+        reader.onload = (e) => {
+          image.src = e.target.result;
+        };
+        reader.readAsDataURL(file); //conversação para base64 para armazenar em banco
+      }
+    });
+  }
+}
+
 export function registrarContato() {
   const form = document.querySelector(".form-container");
 
@@ -67,11 +85,11 @@ export function registrarContato() {
 
       const formData = new FormData(form);
       const rawData = Object.fromEntries(formData);
-
+      console.log(document.getElementById("preview-image").src);
       const contato = {
         nome: rawData.nome,
         celular: rawData.celular,
-        foto: "https://img.freepik.com/psd-gratuitas/renderizacao-3d-do-estilo-de-cabelo-para-o-design-do-avatar_23-2151869121.jpg",
+        foto: document.getElementById("preview-image").src,
         email: rawData.email,
         endereco: rawData.endereco,
         cidade: rawData.cidade,
@@ -81,6 +99,8 @@ export function registrarContato() {
         await criarContato(contato);
         alert("Contato salvo com sucesso!");
         form.reset();
+        document.getElementById("preview-image").src =
+          "https://img.freepik.com/psd-gratuitas/renderizacao-3d-do-estilo-de-cabelo-para-o-design-do-avatar_23-2151869121.jpg";
       } catch (error) {
         console.error("Erro ao salvar contato:", error);
         alert("Não foi possível salvar o contato.");
@@ -92,7 +112,6 @@ export function registrarContato() {
 //criando função de geração de cards de contatos
 export async function exibirContatos() {
   const contatos = await getContatos();
-  window.onload;
 
   let template = document.getElementById("contacts-list");
 
@@ -102,7 +121,7 @@ export async function exibirContatos() {
     const cardContato = `<div class="contact-card-style" data-id="${item.id}">
             <h3>${item.nome}</h3>
             <img
-              src="https://img.freepik.com/psd-gratuitas/ilustracao-3d-de-avatar-ou-perfil-humano_23-2150671122.jpg"
+              src="${item.foto || "https://img.freepik.com/psd-gratuitas/ilustracao-3d-de-avatar-ou-perfil-humano_23-2150671122.jpg"}"
               alt="imagem do contato"
             />
             <p><strong>Id:</strong> ${item.id}</p>
@@ -132,12 +151,11 @@ export async function excluirContato() {
       if (confirm("tem certeza que deseja deletar este contato ?")) {
         try {
           await deletarContato(id);
+          alert("O contato foi deletado com sucesso!");
           location.reload();
         } catch {
-          alert("O contato foi deletado com sucesso!");
+          alert("Não foi possível deletar o contato.");
         }
-      } else {
-        throw new Error("falha ao deletar usuario");
       }
     }
   });
@@ -157,36 +175,47 @@ export async function editarContato() {
 
       //criando form editar
       const formEditar = `
-        <form class="form-container">
-          <h2>Editar Contato</h2>
-          <div class="form-group">
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" name="nome" value="${contato.nome}" required />
+        <div class="registration-content" style="padding: 10px; box-shadow: none; flex-direction: column; align-items: center; gap: 20px;">
+          <div class="image-container" style="gap: 10px;">
+            <span class="image-label" style="font-size: 14px; font-weight: 500; color: #4a5568;">Escolha sua foto de perfil</span>
+            <div class="image-preview" style="width: 150px; height: 150px;">
+              <img id="preview-image" src="${contato.foto}" alt="Preview" />
+            </div>
+            <label for="preview-input" class="btn-upload" style="padding: 5px 10px; font-size: 12px;">Trocar Foto</label>
+            <input type="file" id="preview-input" accept="image/*" hidden />
           </div>
-          <div class="form-group">
-            <label for="celular">Celular</label>
-            <input type="tel" id="celular" name="celular" value="${contato.celular}" required />
-          </div>
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" value="${contato.email}" required />
-          </div>
-          <div class="form-group">
-            <label for="endereco">Endereço</label>
-            <input type="text" id="endereco" name="endereco" value="${contato.endereco}" required />
-          </div>
-          <div class="form-group">
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" name="cidade" value="${contato.cidade}" required />
-          </div>
-          <div class="card-actions">
-            <button type="submit" class="btn-submit">Salvar Alterações</button>
-            <button type="button" class="btn-action" onclick="location.reload()">Cancelar</button>
-          </div>
-        </form>
+          <form class="form-container" style="flex: 1; width: 100%;">
+            <h2 style="font-size: 18px; margin-bottom: 15px;">Editar Contato</h2>
+            <div class="form-group">
+              <label for="nome">Nome Completo</label>
+              <input type="text" id="nome" name="nome" value="${contato.nome}" required />
+            </div>
+            <div class="form-group">
+              <label for="celular">Celular</label>
+              <input type="tel" id="celular" name="celular" value="${contato.celular}" required />
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" value="${contato.email}" required />
+            </div>
+            <div class="form-group">
+              <label for="endereco">Endereço</label>
+              <input type="text" id="endereco" name="endereco" value="${contato.endereco}" required />
+            </div>
+            <div class="form-group">
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" name="cidade" value="${contato.cidade}" required />
+            </div>
+            <div class="card-actions">
+              <button type="submit" class="btn-submit" style="padding: 10px; font-size: 14px;">Salvar</button>
+              <button type="button" class="btn-action" onclick="location.reload()" style="background: #cbd5e0; color: #4a5568;">Cancelar</button>
+            </div>
+          </form>
+        </div>
       `;
 
       card.innerHTML = formEditar; // transforma o card atual no formulario de edição
+      preview(); // Inicializa o preview para o novo form de edição
 
       const formSalvar = card.querySelector("form");
       formSalvar.addEventListener("submit", async (event) => {
@@ -200,6 +229,7 @@ export async function editarContato() {
           nome: rawData.nome,
           celular: rawData.celular,
           foto:
+            document.getElementById("preview-image")?.src ||
             contato.foto ||
             "https://img.freepik.com/psd-gratuitas/renderizacao-3d-do-estilo-de-cabelo-para-o-design-do-avatar_23-2151869121.jpg",
           email: rawData.email,
