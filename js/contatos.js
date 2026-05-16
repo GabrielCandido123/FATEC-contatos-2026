@@ -1,5 +1,7 @@
 const BASE_URL = "https://bakcend-fecaf-render.onrender.com/contatos";
 
+import { uploadParaCloudinary } from "./cloudinary.js";
+
 export async function getContatos() {
   const response = await fetch(BASE_URL);
   if (!response.ok) {
@@ -60,17 +62,15 @@ export async function deletarContato(id) {
 
 export function preview() {
   const input = document.getElementById("preview-input");
-  const image = document.getElementById("preview-image");
 
-  if (input && image) {
+  if (input) {
     input.addEventListener("change", (event) => {
       const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader(); //trasnformando imagem em texto
-        reader.onload = (e) => {
-          image.src = e.target.result;
-        };
-        reader.readAsDataURL(file); //conversação para base64 para armazenar em banco
+      const image = document.getElementById("preview-image");
+
+      if (file && image) {
+        // Usando URL.createObjectURL para um preview mais rápido e simples
+        image.src = URL.createObjectURL(file);
       }
     });
   }
@@ -85,11 +85,25 @@ export function registrarContato() {
 
       const formData = new FormData(form);
       const rawData = Object.fromEntries(formData);
-      console.log(document.getElementById("preview-image").src);
+
+      const input = document.getElementById("preview-input");
+      let fotoUrl = document.getElementById("preview-image").src;
+
+      // Bloco if para envio ao Cloudinary
+      if (input && input.files && input.files[0]) {
+        try {
+          fotoUrl = await uploadParaCloudinary(input.files[0]);
+          console.log("Upload automático concluído:", fotoUrl);
+        } catch (error) {
+          console.error("Erro no upload automático:", error);
+          alert("Não foi possível enviar a foto para a nuvem. Salvando com a versão local...");
+        }
+      }
+
       const contato = {
         nome: rawData.nome,
         celular: rawData.celular,
-        foto: document.getElementById("preview-image").src,
+        foto: fotoUrl,
         email: rawData.email,
         endereco: rawData.endereco,
         cidade: rawData.cidade,
@@ -224,14 +238,25 @@ export async function editarContato() {
         const formData = new FormData(formSalvar); // criando array com os dados do form
         const rawData = Object.fromEntries(formData); //transformando dados do form em objeto
 
+        // Lógica de upload para o Cloudinary na edição
+        const input = card.querySelector("#preview-input");
+        let fotoUrl = card.querySelector("#preview-image").src;
+
+        if (input && input.files && input.files[0]) {
+          try {
+            fotoUrl = await uploadParaCloudinary(input.files[0]);
+            console.log("Upload da edição concluído:", fotoUrl);
+          } catch (error) {
+            console.error("Erro no upload da edição:", error);
+            alert("Erro ao enviar nova foto. Salvando com a versão local...");
+          }
+        }
+
         const contatoAtualizado = {
           // passando o contato atualizado
           nome: rawData.nome,
           celular: rawData.celular,
-          foto:
-            document.getElementById("preview-image")?.src ||
-            contato.foto ||
-            "https://img.freepik.com/psd-gratuitas/renderizacao-3d-do-estilo-de-cabelo-para-o-design-do-avatar_23-2151869121.jpg",
+          foto: fotoUrl,
           email: rawData.email,
           endereco: rawData.endereco,
           cidade: rawData.cidade,
